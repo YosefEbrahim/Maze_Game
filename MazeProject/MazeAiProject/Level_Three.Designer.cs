@@ -34,7 +34,7 @@
             this.pictureBox36 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.picFrame = new System.Windows.Forms.PictureBox();
-            this.pictureBox35 = new System.Windows.Forms.PictureBox();
+            this.Goal = new System.Windows.Forms.PictureBox();
             this.pictureBox34 = new System.Windows.Forms.PictureBox();
             this.pictureBox33 = new System.Windows.Forms.PictureBox();
             this.pictureBox32 = new System.Windows.Forms.PictureBox();
@@ -80,10 +80,15 @@
             this.lbl_time = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lbl_Tree = new System.Windows.Forms.Label();
+            this.lbl_bfs = new System.Windows.Forms.Label();
+            this.lbl_score_text = new System.Windows.Forms.Label();
+            this.lbl_cost = new System.Windows.Forms.Label();
+            this.lbl_Alert = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFrame)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Goal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).BeginInit();
@@ -170,17 +175,17 @@
             this.picFrame.TabIndex = 73;
             this.picFrame.TabStop = false;
             // 
-            // pictureBox35
+            // Goal
             // 
-            this.pictureBox35.ErrorImage = null;
-            this.pictureBox35.Image = global::MazeAiProject.Properties.Resources.green_arrow_bottom;
-            this.pictureBox35.InitialImage = null;
-            this.pictureBox35.Location = new System.Drawing.Point(1402, 657);
-            this.pictureBox35.Name = "pictureBox35";
-            this.pictureBox35.Size = new System.Drawing.Size(46, 50);
-            this.pictureBox35.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox35.TabIndex = 72;
-            this.pictureBox35.TabStop = false;
+            this.Goal.ErrorImage = null;
+            this.Goal.Image = global::MazeAiProject.Properties.Resources.green_arrow_bottom;
+            this.Goal.InitialImage = null;
+            this.Goal.Location = new System.Drawing.Point(1402, 657);
+            this.Goal.Name = "Goal";
+            this.Goal.Size = new System.Drawing.Size(46, 50);
+            this.Goal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Goal.TabIndex = 72;
+            this.Goal.TabStop = false;
             // 
             // pictureBox34
             // 
@@ -634,12 +639,75 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // lbl_Tree
+            // 
+            this.lbl_Tree.AutoSize = true;
+            this.lbl_Tree.BackColor = System.Drawing.Color.Gold;
+            this.lbl_Tree.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_Tree.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Tree.ForeColor = System.Drawing.Color.Black;
+            this.lbl_Tree.Location = new System.Drawing.Point(1572, 597);
+            this.lbl_Tree.Name = "lbl_Tree";
+            this.lbl_Tree.Size = new System.Drawing.Size(243, 29);
+            this.lbl_Tree.TabIndex = 99;
+            this.lbl_Tree.Text = "BFS Tree Traversal";
+            this.lbl_Tree.Click += new System.EventHandler(this.lbl_Tree_Click);
+            // 
+            // lbl_bfs
+            // 
+            this.lbl_bfs.AutoSize = true;
+            this.lbl_bfs.BackColor = System.Drawing.Color.Gold;
+            this.lbl_bfs.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_bfs.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_bfs.ForeColor = System.Drawing.Color.Black;
+            this.lbl_bfs.Location = new System.Drawing.Point(1572, 553);
+            this.lbl_bfs.Name = "lbl_bfs";
+            this.lbl_bfs.Size = new System.Drawing.Size(225, 29);
+            this.lbl_bfs.TabIndex = 98;
+            this.lbl_bfs.Text = "BFS Path Solution";
+            this.lbl_bfs.Click += new System.EventHandler(this.lbl_bfs_Click);
+            // 
+            // lbl_score_text
+            // 
+            this.lbl_score_text.AutoSize = true;
+            this.lbl_score_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold);
+            this.lbl_score_text.Location = new System.Drawing.Point(690, 861);
+            this.lbl_score_text.Name = "lbl_score_text";
+            this.lbl_score_text.Size = new System.Drawing.Size(157, 32);
+            this.lbl_score_text.TabIndex = 103;
+            this.lbl_score_text.Text = "Path Cost:";
+            this.lbl_score_text.Visible = false;
+            // 
+            // lbl_cost
+            // 
+            this.lbl_cost.AutoSize = true;
+            this.lbl_cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cost.Location = new System.Drawing.Point(874, 861);
+            this.lbl_cost.Name = "lbl_cost";
+            this.lbl_cost.Size = new System.Drawing.Size(0, 32);
+            this.lbl_cost.TabIndex = 102;
+            // 
+            // lbl_Alert
+            // 
+            this.lbl_Alert.AutoSize = true;
+            this.lbl_Alert.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Alert.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl_Alert.Location = new System.Drawing.Point(677, 769);
+            this.lbl_Alert.Name = "lbl_Alert";
+            this.lbl_Alert.Size = new System.Drawing.Size(0, 55);
+            this.lbl_Alert.TabIndex = 101;
+            // 
             // Level_Three
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1924, 1055);
+            this.Controls.Add(this.lbl_score_text);
+            this.Controls.Add(this.lbl_cost);
+            this.Controls.Add(this.lbl_Alert);
+            this.Controls.Add(this.lbl_Tree);
+            this.Controls.Add(this.lbl_bfs);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox9);
@@ -654,7 +722,7 @@
             this.Controls.Add(this.pictureBox36);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.picFrame);
-            this.Controls.Add(this.pictureBox35);
+            this.Controls.Add(this.Goal);
             this.Controls.Add(this.pictureBox34);
             this.Controls.Add(this.pictureBox33);
             this.Controls.Add(this.pictureBox31);
@@ -696,7 +764,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFrame)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Goal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).EndInit();
@@ -749,9 +817,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox36;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox picFrame;
-        private System.Windows.Forms.PictureBox pictureBox35;
-        private System.Windows.Forms.PictureBox pictureBox34;
+        public System.Windows.Forms.PictureBox picFrame;
+        private System.Windows.Forms.PictureBox Goal;
+        public System.Windows.Forms.PictureBox pictureBox34;
         private System.Windows.Forms.PictureBox pictureBox33;
         private System.Windows.Forms.PictureBox pictureBox32;
         private System.Windows.Forms.PictureBox pictureBox31;
@@ -795,6 +863,11 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbl_time;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Timer timer1;
+        public System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label lbl_Tree;
+        private System.Windows.Forms.Label lbl_bfs;
+        private System.Windows.Forms.Label lbl_score_text;
+        private System.Windows.Forms.Label lbl_cost;
+        private System.Windows.Forms.Label lbl_Alert;
     }
 }

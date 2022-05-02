@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,10 +17,10 @@ namespace MazeAiProject
     public partial class Level_One : Form
     {
         SoundPlayer simpleSound;
-        int counter = 120;
+        int counter;
         public Level_One()
         {
-
+            counter = 120;
             simpleSound = new SoundPlayer(Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "\\Sounds\\Level1.wav"));
             InitializeComponent();
             lbl_time.Text = counter.ToString() + " sec";
@@ -38,6 +40,7 @@ namespace MazeAiProject
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            Controls.Remove(pictureBox34);
 
             switch (e.KeyCode)
             {
@@ -59,13 +62,13 @@ namespace MazeAiProject
                         picFrame.Top += 5;
                     break;
             }
-            Controls.Remove(pictureBox34);
+
             foreach (Control c2 in Controls)
             {
-                var returnPic = Controls.Find("pictureBox35", true);
-                if (!c2.Equals(picFrame) && c2 is PictureBox
-                && picFrame.Bounds.IntersectsWith(returnPic[0].Bounds))
+                var returnPic = Controls.Find("Goal", true);
+                if (picFrame.Bounds.IntersectsWith(returnPic[0].Bounds))
                 {
+
                     Controls.Remove(pictureBox2);
                     Controls.Remove(pictureBox36);
                     Controls.Remove(pictureBox1);
@@ -73,9 +76,10 @@ namespace MazeAiProject
                     DialogResult res = MessageBox.Show(" You are win !!! \n You have finished your mission ", "Congratulation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                     if (res == DialogResult.OK)
                     {
-                        Start st = new Start();
-                        st.Show();
-                        this.Hide();
+                        this.Close();
+                        Thread t = new Thread(open);
+                        t.SetApartmentState(ApartmentState.STA);
+                        t.Start();
                         return;
                     }
                     else
@@ -84,7 +88,7 @@ namespace MazeAiProject
                     }
                 }
                 if (!c2.Equals(picFrame) && c2 is PictureBox
-                    && picFrame.Bounds.IntersectsWith(c2.Bounds))
+                   && picFrame.Bounds.IntersectsWith(c2.Bounds))
                 {
                     timer1.Stop();
                     DialogResult result = MessageBox.Show(" You had an accident....\n Game Over \n are you want to play again", "Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -100,6 +104,7 @@ namespace MazeAiProject
                         this.Close();
                     }
                 }
+
             }
         }
 
@@ -142,11 +147,17 @@ namespace MazeAiProject
 
         private void label2_Click(object sender, EventArgs e)
         {
-            Start s = new Start();
-            s.Show();
-            this.Hide();
-        }
+            this.Close();
+            Thread t = new Thread(open);
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            return;
 
+        }
+        private void open()
+        {
+            Application.Run(new Start());
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             --counter;
@@ -172,6 +183,110 @@ namespace MazeAiProject
                 }
             }
 
+        }
+        private async void btn_bfs_Click(object sender, EventArgs e)
+        {
+            simpleSound = new SoundPlayer(Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "\\Sounds\\algo start.wav"));
+            simpleSound.Play();
+            simpleSound.PlayLooping();
+            timer1.Stop();
+            lbl_Alert.Text = "BFS is Begin";
+            lbl_time.Text = "00";
+            Controls.Remove(pictureBox34);
+            lbl_bfs.Enabled = false;
+            lbl_Tree.Enabled = false;
+            Parent p = new Parent();
+            p.one = new Level_One();
+            UnInformedSearch uis = new UnInformedSearch(p);
+            List<Location> result = await Task.Run(() => uis.BFS(true));
+            var returnPic = Controls.Find("Goal", true);
+            while (result != null)
+            {
+                foreach (var item in result)
+                {
+
+                    picFrame.Location = new Point(item.x, item.y);
+                    Thread.Sleep(20);
+                    Application.DoEvents();
+                    if (picFrame.Bounds.IntersectsWith(returnPic[0].Bounds))
+                    {
+                        simpleSound.Stop();
+                        lbl_score_text.Visible = true;
+                        lbl_cost.Text = item.PathCost.ToString();
+                        DialogResult res = MessageBox.Show(" You are win !!! \n You have finished your mission ", "Congratulation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                        if (res == DialogResult.OK)
+                        {
+                            this.Close();
+                            Thread t = new Thread(open);
+                            t.SetApartmentState(ApartmentState.STA);
+                            t.Start();
+                            return;
+                        }
+                        else
+                        {
+                            this.Close();
+                            break;
+
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private async void lbl_Tree_Click(object sender, EventArgs e)
+        {
+            simpleSound = new SoundPlayer(Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "\\Sounds\\traverse.wav"));
+            simpleSound.Play();
+            simpleSound.PlayLooping();
+            lbl_time.Text = "00";
+            lbl_Alert.Text = "BFS is Begin";
+            lbl_bfs.Enabled = false;
+            lbl_Tree.Enabled = false;
+            timer1.Stop();
+            //this.Enabled = false;
+            Controls.Remove(pictureBox34);
+            Parent p = new Parent();
+            p.one = new Level_One();
+            UnInformedSearch uis = new UnInformedSearch(p);
+            //this.picFrame.Location = new Point(290, 35);
+            List<Location> result = await Task.Run(() => uis.BFS(false));
+            var returnPic = Controls.Find("Goal", true);
+            while (result != null)
+            {
+                
+                foreach (var item in result)
+                {
+
+                    picFrame.Location = new Point(item.x, item.y);
+                    lbl_score_text.Visible = true;
+                    lbl_cost.Text = item.PathCost.ToString();
+                    lbl_score_text.Update();
+                    lbl_cost.Update();
+                    Thread.Sleep(10);
+                    Application.DoEvents();
+                    if (picFrame.Bounds.IntersectsWith(returnPic[0].Bounds))
+                    {
+                        simpleSound.Stop();
+                        DialogResult res = MessageBox.Show(" You are win !!! \n You have finished your mission ", "Congratulation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                        if (res == DialogResult.OK)
+                        {
+                            this.Close();
+                            Thread t = new Thread(open);
+                            t.SetApartmentState(ApartmentState.STA);
+                            t.Start();
+                            return;
+                        }
+                        else
+                        {
+                            this.Close();
+                            break;
+
+                        }
+                    }
+                }
+
+            }
         }
     }
 }
