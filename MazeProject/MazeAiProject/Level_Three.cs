@@ -18,8 +18,10 @@ namespace MazeAiProject
         SoundPlayer simpleSound;
         int counter;
         Parent p = new Parent();
+        bool back;
         public Level_Three()
         {
+            back = false;
             counter = 200;
             simpleSound = new SoundPlayer(Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "\\Sounds\\Level2.wav"));
             InitializeComponent();
@@ -71,6 +73,7 @@ namespace MazeAiProject
                     Controls.Remove(pictureBox36);
                     Controls.Remove(pictureBox1);
                     simpleSound.Stop();
+                    timer1.Stop();
                     DialogResult res = MessageBox.Show(" You are win !!! \n You have finished your mission ", "Congratulation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                     if (res == DialogResult.OK)
                     {
@@ -82,7 +85,7 @@ namespace MazeAiProject
                     }
                     else
                     {
-                        this.Close();
+                        Application.Exit();
                     }
                 }
                 if (!c2.Equals(picFrame) && c2 is PictureBox /* if you want it to be just buttons */
@@ -99,7 +102,7 @@ namespace MazeAiProject
                     }
                     else
                     {
-                        this.Close();
+                        Application.Exit();
                     }
                 }
             }
@@ -145,7 +148,11 @@ namespace MazeAiProject
 
         private void label2_Click(object sender, EventArgs e)
         {
-            this.Close();  
+            if (sender != null)
+            {
+                back = true;
+            }
+            this.Close();
             Thread t = new Thread(open);
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
@@ -177,7 +184,7 @@ namespace MazeAiProject
                 }
                 else
                 {
-                    this.Close();
+                    Application.Exit();
                 }
             }
         }
@@ -207,6 +214,10 @@ namespace MazeAiProject
                     Application.DoEvents();
                     if (picFrame.Bounds.IntersectsWith(returnPic[0].Bounds))
                     {
+                        if (back == true)
+                        {
+                            return;
+                        }
                         simpleSound.Stop();
                         lbl_score_text.Visible = true;
                         lbl_cost.Text = item.PathCost.ToString();
@@ -221,13 +232,11 @@ namespace MazeAiProject
                         }
                         else
                         {
-                            this.Close();
-                            break;
+                            Application.Exit();
 
                         }
                     }
                 }
-
             }
         }
 
@@ -260,6 +269,10 @@ namespace MazeAiProject
                     Application.DoEvents();
                     if (picFrame.Bounds.IntersectsWith(returnPic[0].Bounds))
                     {
+                        if (back == true)
+                        {
+                            return;
+                        }
                         simpleSound.Stop();
                         DialogResult res = MessageBox.Show(" You are win !!! \n You have finished your mission ", "Congratulation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (res == DialogResult.OK)
@@ -272,13 +285,10 @@ namespace MazeAiProject
                         }
                         else
                         {
-                            this.Close();
-                            break;
-
+                            Application.Exit();
                         }
                     }
                 }
-
             }
 
         }

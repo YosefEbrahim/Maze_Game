@@ -10,3 +10,15 @@ C:\Users\yosef\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\Maz
 C:\Users\yosef\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.Start.resources
 C:\Users\yosef\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.csproj.GenerateResource.Cache
 C:\Users\yosef\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.csprojResolveAssemblyReference.cache
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\bin\Debug\MazeAiProject.exe.config
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.exe
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.pdb
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\bin\Debug\MazeAiProject.exe
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\bin\Debug\MazeAiProject.pdb
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.csprojResolveAssemblyReference.cache
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.Level_One.resources
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.Level_Two.resources
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.Level_Three.resources
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.Properties.Resources.resources
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.Start.resources
+D:\ملفات\Github repo for Maze Game\MazeProject\MazeAiProject\obj\Debug\MazeAiProject.csproj.GenerateResource.Cache

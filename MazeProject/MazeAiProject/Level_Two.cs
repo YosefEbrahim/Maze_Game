@@ -18,8 +18,10 @@ namespace MazeAiProject
         SoundPlayer simpleSound;
         int counter;
         Parent p = new Parent();
+        bool back;
         public Level_Two()
         {
+            back = false;
             counter = 120;
             simpleSound = new SoundPlayer(Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "\\Sounds\\Level3.wav"));
             InitializeComponent();
@@ -71,6 +73,7 @@ namespace MazeAiProject
                     Controls.Remove(pictureBox36);
                     Controls.Remove(pictureBox1);
                     simpleSound.Stop();
+                    timer1.Stop();
                     DialogResult res = MessageBox.Show(" You are win !!! \n You have finished your mission ", "Congratulation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                     if (res == DialogResult.OK)
                     {
@@ -82,7 +85,7 @@ namespace MazeAiProject
                     }
                     else
                     {
-                        this.Close();
+                        Application.Exit();
                     }
                 }
                 if (!c2.Equals(picFrame) && c2 is PictureBox /* if you want it to be just buttons */
@@ -99,7 +102,7 @@ namespace MazeAiProject
                     }
                     else
                     {
-                        this.Close();
+                        Application.Exit();
                     }
                 }
 
@@ -145,8 +148,12 @@ namespace MazeAiProject
 
         private void label2_Click(object sender, EventArgs e)
         {
+            if (sender != null)
+            {
+                back = true;
+            }
             this.Close();
-           Thread t = new Thread(open);
+            Thread t = new Thread(open);
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             return;
@@ -177,7 +184,7 @@ namespace MazeAiProject
                 }
                 else
                 {
-                    this.Close();
+                    Application.Exit();
                 }
             }
         }
@@ -213,6 +220,10 @@ namespace MazeAiProject
                         DialogResult res = MessageBox.Show(" You are win !!! \n You have finished your mission ", "Congratulation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (res == DialogResult.OK)
                         {
+                            if (back == true)
+                            {
+                                return;
+                            }
                             this.Close();
                             Thread t = new Thread(open);
                             t.SetApartmentState(ApartmentState.STA);
@@ -221,8 +232,7 @@ namespace MazeAiProject
                         }
                         else
                         {
-                            this.Close();
-                            break;
+                            Application.Exit();
 
                         }
                     }
@@ -264,18 +274,20 @@ namespace MazeAiProject
                         DialogResult res = MessageBox.Show(" You are win !!! \n You have finished your mission ", "Congratulation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (res == DialogResult.OK)
                         {
+                            if (back == true)
+                            {
+                                return;
+                            }
                             this.Close();
                             Thread t = new Thread(open);
                             t.SetApartmentState(ApartmentState.STA);
                             t.Start();
                             return;
-                            
+
                         }
                         else
                         {
-                            this.Close();
-                            break;
-
+                            Application.Exit();
                         }
                     }
                 }
